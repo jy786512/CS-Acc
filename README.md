@@ -18,7 +18,7 @@ AI-powered customer sentiment analysis from meeting transcripts. Built for Neuro
 ```bash
 npm install
 cp .env.example .env.local
-# Add your OPENAI_API_KEY to .env.local
+# Add your GEMINI_API_KEY to .env.local
 npm run dev
 ```
 
@@ -35,7 +35,7 @@ The app is configured for Vercel out of the box (`vercel.json`, Next.js App Rout
 
 | Variable | Environments | Required |
 |----------|--------------|----------|
-| `OPENAI_API_KEY` | Production, Preview, Development | Optional (enables AI analysis; without it the app uses rule-based fallback) |
+| `GEMINI_API_KEY` | Production, Preview, Development | Optional (enables AI analysis via Google Gemini; without it the app uses rule-based fallback) |
 
 5. Click **Deploy**
 
@@ -90,7 +90,7 @@ Export JSON (full analysis history) or CSV (customer health summary) from the da
 
 | Variable | Required | Description |
 |----------|----------|-------------|
-| `OPENAI_API_KEY` | Recommended | OpenAI API key for AI sentiment analysis |
+| `GEMINI_API_KEY` | Recommended | Google AI Studio / Gemini API key for AI sentiment analysis |
 
 ## Tech Stack
 
@@ -98,7 +98,7 @@ Export JSON (full analysis history) or CSV (customer health summary) from the da
 - **TypeScript**
 - **Tailwind CSS**
 - **Recharts** (trend visualization)
-- **OpenAI GPT-4o-mini** (sentiment analysis)
+- **Google Gemini** (sentiment analysis)
 - **LocalStorage** (client-side data persistence)
 
 ## Data Storage

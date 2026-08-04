@@ -1,4 +1,4 @@
-import OpenAI from "openai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import { v4 as uuidv4 } from "uuid";
 import type { AnalyzeRequest, CustomerAnalysis, Disposition } from "@/lib/types";
 import {
@@ -61,7 +61,7 @@ function fallbackAnalysis(
     disposition,
     score,
     confidence: 0.5,
-    summary: `Rule-based analysis (${disposition.toUpperCase()}). Configure OPENAI_API_KEY for AI-powered insights.`,
+    summary: `Rule-based analysis (${disposition.toUpperCase()}). Configure GEMINI_API_KEY for AI-powered insights.`,
     keySignals: [
       disposition === "red"
         ? "Negative language patterns detected"
@@ -94,12 +94,20 @@ export async function analyzeTranscript(
     );
   }
 
-  const apiKey = process.env.OPENAI_API_KEY;
+  const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     return fallbackAnalysis(request, customerText, speakers);
   }
 
-  const openai = new OpenAI({ apiKey });
+  const genAI = new GoogleGenerativeAI(apiKey);
+  const model = genAI.getGenerativeModel({
+    model: "gemini-2.0-flash",
+    systemInstruction: SYSTEM_PROMPT,
+    generationConfig: {
+      responseMimeType: "application/json",
+      temperature: 0.3,
+    },
+  });
 
   const userPrompt = `Analyze this customer meeting transcript for customer "${request.customerName}".
 
@@ -122,45 +130,40 @@ Respond with JSON only:
   "customerQuotes": ["notable quote 1", "notable quote 2"]
 }`;
 
-  const response = await openai.chat.completions.create({
-    model: "gpt-4o-mini",
-    messages: [
-      { role: "system", content: SYSTEM_PROMPT },
-      { role: "user", content: userPrompt },
-    ],
-    response_format: { type: "json_object" },
-    temperature: 0.3,
-  });
+  try {
+    const result = await model.generateContent(userPrompt);
+    const content = result.response.text();
+    if (!content) {
+      return fallbackAnalysis(request, customerText, speakers);
+    }
 
-  const content = response.choices[0]?.message?.content;
-  if (!content) {
+    const parsed = JSON.parse(content) as {
+      disposition: Disposition;
+      score: number;
+      confidence: number;
+      summary: string;
+      keySignals: string[];
+      customerQuotes: string[];
+    };
+
+    const score = Math.max(0, Math.min(100, parsed.score ?? 55));
+    const disposition = parsed.disposition ?? dispositionFromScore(score);
+
+    return {
+      id: uuidv4(),
+      customerName: request.customerName,
+      meetingTitle: request.transcript.title,
+      meetingDate: request.transcript.date,
+      disposition,
+      score,
+      confidence: Math.max(0, Math.min(1, parsed.confidence ?? 0.8)),
+      summary: parsed.summary ?? "Analysis complete.",
+      keySignals: parsed.keySignals ?? [],
+      customerQuotes: parsed.customerQuotes ?? [],
+      speakersIdentified: speakers,
+      analyzedAt: new Date().toISOString(),
+    };
+  } catch {
     return fallbackAnalysis(request, customerText, speakers);
   }
-
-  const parsed = JSON.parse(content) as {
-    disposition: Disposition;
-    score: number;
-    confidence: number;
-    summary: string;
-    keySignals: string[];
-    customerQuotes: string[];
-  };
-
-  const score = Math.max(0, Math.min(100, parsed.score ?? 55));
-  const disposition = parsed.disposition ?? dispositionFromScore(score);
-
-  return {
-    id: uuidv4(),
-    customerName: request.customerName,
-    meetingTitle: request.transcript.title,
-    meetingDate: request.transcript.date,
-    disposition,
-    score,
-    confidence: Math.max(0, Math.min(1, parsed.confidence ?? 0.8)),
-    summary: parsed.summary ?? "Analysis complete.",
-    keySignals: parsed.keySignals ?? [],
-    customerQuotes: parsed.customerQuotes ?? [],
-    speakersIdentified: speakers,
-    analyzedAt: new Date().toISOString(),
-  };
 }
