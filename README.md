@@ -26,12 +26,22 @@ Open [http://localhost:3000](http://localhost:3000)
 
 ### Deploy to Vercel
 
-1. Push this repo to GitHub (already connected to `jy786512/CS-Acc`)
-2. Go to [vercel.com/new](https://vercel.com/new) and import the repository
-3. Add environment variable: `OPENAI_API_KEY` = your OpenAI API key
-4. Deploy
+The app is configured for Vercel out of the box (`vercel.json`, Next.js App Router, Node 20+).
 
-> **Note:** Without `OPENAI_API_KEY`, the app uses rule-based fallback analysis. Add the key for full AI-powered insights.
+1. Import [jy786512/CS-Acc](https://github.com/jy786512/CS-Acc) at [vercel.com/new](https://vercel.com/new)
+2. Use **Production Branch:** `main`
+3. Framework preset should auto-detect as **Next.js** — no custom build settings needed
+4. Add this environment variable in **Project → Settings → Environment Variables**:
+
+| Variable | Environments | Required |
+|----------|--------------|----------|
+| `OPENAI_API_KEY` | Production, Preview, Development | Optional (enables AI analysis; without it the app uses rule-based fallback) |
+
+5. Click **Deploy**
+
+After the first deploy, every push to `main` triggers a production deployment. Pull request previews are created automatically for other branches.
+
+> **Note:** Analysis data is stored in the browser (`localStorage`), not on Vercel — no database or KV store is required.
 
 ## Usage
 
