@@ -1,21 +1,14 @@
 "use client";
 
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  ReferenceLine,
-} from "recharts";
+import { LineChart, Line, Tooltip, ResponsiveContainer } from "recharts";
 import type { CustomerAnalysis } from "@/lib/types";
 
 interface TrendChartProps {
   analyses: CustomerAnalysis[];
   customerName?: string;
 }
+
+const CHART_LINE = "oklch(0.985 0 0)";
 
 export function TrendChart({ analyses, customerName }: TrendChartProps) {
   const filtered = customerName
@@ -36,34 +29,24 @@ export function TrendChart({ analyses, customerName }: TrendChartProps) {
 
   if (data.length === 0) {
     return (
-      <div className="flex h-64 items-center justify-center rounded-xl border border-dashed border-slate-200 bg-slate-50/50">
-        <p className="text-sm text-slate-500">No trend data yet</p>
+      <div className="flex h-48 items-center justify-center rounded-lg border border-dashed border-border">
+        <p className="text-label-sm">No trend data yet</p>
       </div>
     );
   }
 
   return (
-    <div className="h-64 w-full">
+    <div className="h-48 w-full">
       <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={data} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-          <XAxis
-            dataKey="date"
-            tick={{ fontSize: 12, fill: "#64748b" }}
-            axisLine={{ stroke: "#e2e8f0" }}
-          />
-          <YAxis
-            domain={[0, 100]}
-            tick={{ fontSize: 12, fill: "#64748b" }}
-            axisLine={{ stroke: "#e2e8f0" }}
-          />
-          <ReferenceLine y={66} stroke="#22c55e" strokeDasharray="4 4" strokeOpacity={0.4} />
-          <ReferenceLine y={36} stroke="#ef4444" strokeDasharray="4 4" strokeOpacity={0.4} />
+        <LineChart data={data} margin={{ top: 8, right: 8, left: 8, bottom: 8 }}>
           <Tooltip
             contentStyle={{
-              borderRadius: "12px",
-              border: "1px solid #e2e8f0",
-              boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+              background: "oklch(0.269 0 0)",
+              borderRadius: "8px",
+              border: "1px solid rgba(255,255,255,0.1)",
+              boxShadow: "0 4px 24px -4px rgba(0,0,0,0.5)",
+              color: "oklch(0.985 0 0)",
+              fontSize: "12px",
             }}
             formatter={(value, _name, props) => [
               `${value} (${String(props.payload?.disposition ?? "").toUpperCase()})`,
@@ -78,10 +61,10 @@ export function TrendChart({ analyses, customerName }: TrendChartProps) {
           <Line
             type="monotone"
             dataKey="score"
-            stroke="#6366f1"
-            strokeWidth={2.5}
-            dot={{ fill: "#6366f1", strokeWidth: 2, r: 4 }}
-            activeDot={{ r: 6, fill: "#4f46e5" }}
+            stroke={CHART_LINE}
+            strokeWidth={2}
+            dot={{ fill: CHART_LINE, strokeWidth: 0, r: 4 }}
+            activeDot={{ r: 5, fill: CHART_LINE, strokeWidth: 0 }}
           />
         </LineChart>
       </ResponsiveContainer>

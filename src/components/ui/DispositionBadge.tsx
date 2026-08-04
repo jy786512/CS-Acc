@@ -1,3 +1,5 @@
+"use client";
+
 import type { Disposition } from "@/lib/types";
 import { DISPOSITION_CONFIG } from "@/lib/constants";
 
@@ -16,7 +18,7 @@ export function DispositionBadge({ disposition, size = "md" }: DispositionBadgeP
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 rounded-full font-medium ${config.bgColor} ${config.textColor} ${config.borderColor} border ${sizeClasses[size]}`}
+      className={`inline-flex items-center gap-1.5 rounded-full font-medium border ${config.bgColor} ${config.textColor} ${config.borderColor} ${sizeClasses[size]}`}
     >
       <span
         className="h-2 w-2 rounded-full"
