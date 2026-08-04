@@ -18,24 +18,20 @@ export function CustomerDetailModal({ customer, onClose }: CustomerDetailModalPr
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div
-        className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
         onClick={onClose}
         onKeyDown={() => {}}
         role="presentation"
       />
-      <div className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white shadow-2xl">
-        <div className="sticky top-0 z-10 flex items-center justify-between border-b border-slate-100 bg-white px-6 py-4">
+      <div className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-lg border border-border bg-card shadow-[var(--ds-shadow-card)]">
+        <div className="sticky top-0 z-10 flex items-center justify-between border-b border-border bg-card px-6 py-4">
           <div>
-            <h2 className="text-xl font-semibold text-slate-900">{customer.customerName}</h2>
-            <p className="text-sm text-slate-500">
+            <h2 className="text-xl font-semibold text-foreground">{customer.customerName}</h2>
+            <p className="text-label-sm">
               {customer.analysisCount} meetings · Trend: {customer.trend}
             </p>
           </div>
-          <button
-            type="button"
-            onClick={onClose}
-            className="rounded-lg p-2 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600"
-          >
+          <button type="button" onClick={onClose} className="ds-btn-ghost !p-2">
             <X className="h-5 w-5" />
           </button>
         </div>
@@ -51,31 +47,31 @@ export function CustomerDetailModal({ customer, onClose }: CustomerDetailModalPr
           </div>
 
           <div>
-            <h3 className="text-sm font-medium text-slate-700">Health Trend</h3>
+            <h3 className="text-sm font-medium text-muted">Health Trend</h3>
             <div className="mt-2">
               <TrendChart analyses={customer.analyses} customerName={customer.customerName} />
             </div>
           </div>
 
           <div>
-            <h3 className="text-sm font-medium text-slate-700">Meeting History</h3>
+            <h3 className="text-sm font-medium text-muted">Meeting History</h3>
             <div className="mt-2 space-y-2">
               {customer.analyses.map((analysis) => (
                 <button
                   key={analysis.id}
                   type="button"
                   onClick={() => setSelectedAnalysis(analysis)}
-                  className={`w-full rounded-xl border p-3 text-left transition-all ${
+                  className={`w-full rounded-lg border p-3 text-left transition-all ${
                     selectedAnalysis?.id === analysis.id
-                      ? "border-indigo-200 bg-indigo-50/50"
-                      : "border-slate-200 hover:border-slate-300"
+                      ? "border-white/20 bg-white/[0.05]"
+                      : "border-border hover:border-white/15"
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="font-medium text-slate-900">{analysis.meetingTitle}</span>
+                    <span className="font-medium text-foreground">{analysis.meetingTitle}</span>
                     <DispositionBadge disposition={analysis.disposition} size="sm" />
                   </div>
-                  <div className="mt-1 flex items-center gap-1 text-xs text-slate-400">
+                  <div className="mt-1 flex items-center gap-1 text-label-xs">
                     <Calendar className="h-3 w-3" />
                     {new Date(analysis.meetingDate).toLocaleDateString()}
                   </div>
@@ -85,13 +81,15 @@ export function CustomerDetailModal({ customer, onClose }: CustomerDetailModalPr
           </div>
 
           {selectedAnalysis && (
-            <div className="rounded-xl bg-slate-50 p-4">
-              <p className="text-sm leading-relaxed text-slate-700">{selectedAnalysis.summary}</p>
+            <div className="rounded-lg border border-border bg-white/[0.03] p-4">
+              <p className="text-sm leading-relaxed text-foreground/90">
+                {selectedAnalysis.summary}
+              </p>
               {selectedAnalysis.customerQuotes.length > 0 && (
                 <div className="mt-3 space-y-2">
                   {selectedAnalysis.customerQuotes.map((quote, i) => (
-                    <div key={i} className="flex gap-2 text-sm italic text-slate-600">
-                      <Quote className="mt-0.5 h-4 w-4 shrink-0 text-slate-300" />
+                    <div key={i} className="flex gap-2 text-sm italic text-muted">
+                      <Quote className="mt-0.5 h-4 w-4 shrink-0 opacity-50" />
                       &ldquo;{quote}&rdquo;
                     </div>
                   ))}

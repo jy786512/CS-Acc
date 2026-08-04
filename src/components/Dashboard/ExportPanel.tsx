@@ -1,7 +1,7 @@
 "use client";
 
-import { Download, Upload, FileJson, FileSpreadsheet } from "lucide-react";
 import { useRef } from "react";
+import { Download, Upload, FileJson, FileSpreadsheet } from "lucide-react";
 import type { CustomerAnalysis } from "@/lib/types";
 import {
   downloadFile,
@@ -55,9 +55,9 @@ export function ExportPanel({ analyses, onImport }: ExportPanelProps) {
   };
 
   return (
-    <div className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm">
-      <h3 className="text-lg font-semibold text-slate-900">Export & Import</h3>
-      <p className="mt-1 text-sm text-slate-500">
+    <div className="ds-card">
+      <h3 className="text-lg font-semibold tracking-tight text-foreground">Export & Import</h3>
+      <p className="mt-1 text-label-sm">
         Export customer health data for your project management tool or import previous exports.
       </p>
 
@@ -66,7 +66,7 @@ export function ExportPanel({ analyses, onImport }: ExportPanelProps) {
           type="button"
           onClick={handleExportJson}
           disabled={analyses.length === 0}
-          className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition-all hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50"
+          className="ds-btn-primary"
         >
           <FileJson className="h-4 w-4" />
           Export JSON
@@ -75,7 +75,7 @@ export function ExportPanel({ analyses, onImport }: ExportPanelProps) {
           type="button"
           onClick={handleExportCsv}
           disabled={analyses.length === 0}
-          className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 shadow-sm transition-all hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+          className="ds-btn-secondary"
         >
           <FileSpreadsheet className="h-4 w-4" />
           Export CSV
@@ -83,7 +83,7 @@ export function ExportPanel({ analyses, onImport }: ExportPanelProps) {
         <button
           type="button"
           onClick={() => fileInputRef.current?.click()}
-          className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 shadow-sm transition-all hover:bg-slate-50"
+          className="ds-btn-secondary"
         >
           <Upload className="h-4 w-4" />
           Import Data
@@ -97,14 +97,14 @@ export function ExportPanel({ analyses, onImport }: ExportPanelProps) {
         />
       </div>
 
-      <div className="mt-4 rounded-xl bg-slate-50 p-4">
+      <div className="mt-4 rounded-lg border border-border bg-white/[0.03] p-4">
         <div className="flex items-start gap-2">
-          <Download className="mt-0.5 h-4 w-4 shrink-0 text-slate-400" />
-          <div className="text-xs text-slate-500">
-            <p className="font-medium text-slate-600">PM Tool Integration</p>
+          <Download className="mt-0.5 h-4 w-4 shrink-0 text-muted" />
+          <div className="text-label-xs">
+            <p className="font-medium text-muted">PM Tool Integration</p>
             <p className="mt-1">
-              JSON exports include full analysis history with disposition, scores, trends, and
-              key signals — ready to feed into your project management customer health metric.
+              JSON exports include full analysis history with disposition, scores, trends, and key
+              signals — ready to feed into your project management customer health metric.
             </p>
           </div>
         </div>

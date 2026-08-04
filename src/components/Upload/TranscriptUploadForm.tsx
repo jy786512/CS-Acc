@@ -122,46 +122,40 @@ export function TranscriptUploadForm() {
 
   return (
     <div className="space-y-6">
-      <div className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm">
-        <h2 className="text-lg font-semibold text-slate-900">Meeting Details</h2>
+      <div className="ds-card">
+        <h2 className="text-lg font-semibold tracking-tight text-foreground">Meeting Details</h2>
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
           <div>
-            <label className="block text-sm font-medium text-slate-700">
-              Customer Name *
-            </label>
+            <label className="block text-sm font-medium text-muted">Customer Name *</label>
             <input
               type="text"
               value={customerName}
               onChange={(e) => setCustomerName(e.target.value)}
               placeholder="Acme Corp"
-              className="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+              className="mt-1.5 ds-input"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-700">
-              Meeting Title
-            </label>
+            <label className="block text-sm font-medium text-muted">Meeting Title</label>
             <input
               type="text"
               value={meetingTitle}
               onChange={(e) => setMeetingTitle(e.target.value)}
               placeholder="Q3 Business Review"
-              className="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+              className="mt-1.5 ds-input"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-700">
-              Meeting Date
-            </label>
+            <label className="block text-sm font-medium text-muted">Meeting Date</label>
             <input
               type="date"
               value={meetingDate}
               onChange={(e) => setMeetingDate(e.target.value)}
-              className="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+              className="mt-1.5 ds-input [color-scheme:dark]"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-700">
+            <label className="block text-sm font-medium text-muted">
               Additional Neuron7 Speakers
             </label>
             <input
@@ -169,24 +163,22 @@ export function TranscriptUploadForm() {
               value={neuron7Speakers}
               onChange={(e) => setNeuron7Speakers(e.target.value)}
               placeholder="John Smith, Jane Doe (comma-separated)"
-              className="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+              className="mt-1.5 ds-input"
             />
-            <p className="mt-1 text-xs text-slate-400">
+            <p className="mt-1 text-label-xs">
               Speakers containing &quot;neuron7&quot; are auto-filtered
             </p>
           </div>
         </div>
       </div>
 
-      <div className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm">
-        <div className="flex items-center gap-4 border-b border-slate-100 pb-4">
+      <div className="ds-card">
+        <div className="flex items-center gap-2 border-b border-border pb-4">
           <button
             type="button"
             onClick={() => setInputMode("upload")}
-            className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-all ${
-              inputMode === "upload"
-                ? "bg-indigo-50 text-indigo-700"
-                : "text-slate-600 hover:bg-slate-50"
+            className={`flex items-center gap-2 ${
+              inputMode === "upload" ? "ds-btn-ghost-active" : "ds-btn-ghost"
             }`}
           >
             <Upload className="h-4 w-4" />
@@ -195,10 +187,8 @@ export function TranscriptUploadForm() {
           <button
             type="button"
             onClick={() => setInputMode("paste")}
-            className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-all ${
-              inputMode === "paste"
-                ? "bg-indigo-50 text-indigo-700"
-                : "text-slate-600 hover:bg-slate-50"
+            className={`flex items-center gap-2 ${
+              inputMode === "paste" ? "ds-btn-ghost-active" : "ds-btn-ghost"
             }`}
           >
             <FileText className="h-4 w-4" />
@@ -208,14 +198,12 @@ export function TranscriptUploadForm() {
 
         <div className="mt-4">
           {inputMode === "upload" ? (
-            <label className="flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-200 bg-slate-50/50 px-6 py-12 transition-colors hover:border-indigo-300 hover:bg-indigo-50/30">
-              <Upload className="h-10 w-10 text-slate-400" />
-              <p className="mt-3 text-sm font-medium text-slate-700">
+            <label className="flex cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed border-border bg-white/[0.02] px-6 py-12 transition-colors hover:border-white/20 hover:bg-white/[0.04]">
+              <Upload className="h-10 w-10 text-muted" />
+              <p className="mt-3 text-sm font-medium text-foreground">
                 {file ? file.name : "Drop a transcript file or click to browse"}
               </p>
-              <p className="mt-1 text-xs text-slate-400">
-                Supports .txt, .vtt, .srt, .json
-              </p>
+              <p className="mt-1 text-label-xs">Supports .txt, .vtt, .srt, .json</p>
               <input
                 type="file"
                 accept=".txt,.vtt,.srt,.json,.csv"
@@ -242,24 +230,20 @@ Sarah (Acme): We're really happy with the progress so far.
 John (Neuron7): Great to hear! Let me share the roadmap.
 Sarah (Acme): Actually, we have some concerns about the timeline.`}
               rows={12}
-              className="w-full rounded-xl border border-slate-200 px-4 py-3 font-mono text-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+              className="ds-input font-mono"
             />
           )}
         </div>
 
         <div className="mt-4 flex gap-3">
-          <button
-            type="button"
-            onClick={handleParse}
-            className="rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-medium text-slate-700 shadow-sm transition-all hover:bg-slate-50"
-          >
+          <button type="button" onClick={handleParse} className="ds-btn-secondary">
             Preview Speakers
           </button>
           <button
             type="button"
             onClick={handleAnalyze}
             disabled={isAnalyzing}
-            className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 px-5 py-2.5 text-sm font-medium text-white shadow-lg shadow-indigo-500/25 transition-all hover:from-indigo-700 hover:to-violet-700 disabled:cursor-not-allowed disabled:opacity-50"
+            className="ds-btn-primary"
           >
             {isAnalyzing ? (
               <>
@@ -277,16 +261,18 @@ Sarah (Acme): Actually, we have some concerns about the timeline.`}
       </div>
 
       {error && (
-        <div className="flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 p-4">
-          <AlertCircle className="mt-0.5 h-5 w-5 shrink-0 text-red-500" />
-          <p className="text-sm text-red-700">{error}</p>
+        <div className="flex items-start gap-3 rounded-lg border border-white/15 bg-white/[0.03] p-4">
+          <AlertCircle className="mt-0.5 h-5 w-5 shrink-0 text-[var(--ds-lum-risk)]" />
+          <p className="text-sm text-[var(--ds-lum-attention)]">{error}</p>
         </div>
       )}
 
       {parsed && parsed.segments.length > 0 && (
-        <div className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm">
-          <h3 className="text-lg font-semibold text-slate-900">Speaker Preview</h3>
-          <p className="mt-1 text-sm text-slate-500">
+        <div className="ds-card">
+          <h3 className="text-lg font-semibold tracking-tight text-foreground">
+            Speaker Preview
+          </h3>
+          <p className="mt-1 text-label-sm">
             Only customer speakers (non-Neuron7) will be analyzed
           </p>
           <div className="mt-4 flex flex-wrap gap-2">
@@ -295,20 +281,20 @@ Sarah (Acme): Actually, we have some concerns about the timeline.`}
               return (
                 <span
                   key={speaker}
-                  className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium ${
+                  className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-medium ${
                     isN7
-                      ? "bg-slate-100 text-slate-400 line-through"
-                      : "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200"
+                      ? "border-border text-muted line-through opacity-50"
+                      : "border-white/20 text-foreground bg-white/[0.05]"
                   }`}
                 >
-                  {isN7 ? "🚫" : "✓"} {speaker}
-                  {isN7 && <span className="text-xs">(Neuron7)</span>}
+                  {isN7 ? "—" : "✓"} {speaker}
+                  {isN7 && <span className="text-label-xs">(Neuron7)</span>}
                 </span>
               );
             })}
           </div>
           {customerSpeakers.length === 0 && (
-            <p className="mt-3 text-sm text-amber-600">
+            <p className="mt-3 text-sm text-[var(--ds-lum-attention)]">
               No customer speakers detected. Add custom Neuron7 speaker names if needed.
             </p>
           )}
@@ -316,13 +302,13 @@ Sarah (Acme): Actually, we have some concerns about the timeline.`}
       )}
 
       {result && (
-        <div className="rounded-2xl border border-emerald-200 bg-gradient-to-br from-emerald-50 to-white p-6 shadow-sm">
+        <div className="ds-card border-white/20">
           <div className="flex items-start justify-between gap-4">
             <div className="flex items-center gap-3">
-              <CheckCircle2 className="h-6 w-6 text-emerald-500" />
+              <CheckCircle2 className="h-6 w-6 text-foreground" />
               <div>
-                <h3 className="text-lg font-semibold text-slate-900">Analysis Complete</h3>
-                <p className="text-sm text-slate-500">{result.meetingTitle}</p>
+                <h3 className="text-lg font-semibold text-foreground">Analysis Complete</h3>
+                <p className="text-label-sm">{result.meetingTitle}</p>
               </div>
             </div>
             <DispositionBadge disposition={result.disposition} size="lg" />
@@ -332,15 +318,15 @@ Sarah (Acme): Actually, we have some concerns about the timeline.`}
             <HealthMeter score={result.score} disposition={result.disposition} size="lg" />
           </div>
 
-          <p className="mt-4 text-sm leading-relaxed text-slate-700">{result.summary}</p>
+          <p className="mt-4 text-sm leading-relaxed text-muted">{result.summary}</p>
 
           {result.keySignals.length > 0 && (
             <div className="mt-4">
-              <h4 className="text-sm font-medium text-slate-700">Key Signals</h4>
+              <h4 className="text-sm font-medium text-muted">Key Signals</h4>
               <ul className="mt-2 space-y-1">
                 {result.keySignals.map((signal, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm text-slate-600">
-                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-indigo-400" />
+                  <li key={i} className="flex items-start gap-2 text-sm text-muted">
+                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-foreground" />
                     {signal}
                   </li>
                 ))}
@@ -351,7 +337,7 @@ Sarah (Acme): Actually, we have some concerns about the timeline.`}
           <button
             type="button"
             onClick={() => router.push("/")}
-            className="mt-6 rounded-xl bg-indigo-600 px-5 py-2.5 text-sm font-medium text-white shadow-sm transition-all hover:bg-indigo-700"
+            className="mt-6 ds-btn-primary"
           >
             View on Dashboard →
           </button>

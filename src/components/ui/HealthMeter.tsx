@@ -17,33 +17,28 @@ export function HealthMeter({
   showLabel = true,
 }: HealthMeterProps) {
   const config = DISPOSITION_CONFIG[disposition];
-  const heights = { sm: "h-2", md: "h-3", lg: "h-4" };
+  const heights = { sm: "h-1.5", md: "h-2", lg: "h-3" };
 
   return (
     <div className="w-full">
       {showLabel && (
         <div className="mb-1.5 flex items-center justify-between text-sm">
-          <span className="font-medium text-slate-700">Health Score</span>
-          <span className="font-semibold tabular-nums" style={{ color: config.color }}>
+          <span className="font-medium text-muted">Health Score</span>
+          <span
+            className="font-semibold tabular-nums text-foreground"
+            style={{ opacity: score / 100 + 0.2 }}
+          >
             {score}
           </span>
         </div>
       )}
-      <div className={`relative w-full overflow-hidden rounded-full bg-slate-100 ${heights[size]}`}>
+      <div
+        className={`relative w-full overflow-hidden rounded-full bg-white/[0.06] ${heights[size]}`}
+      >
         <div
-          className={`absolute inset-y-0 left-0 rounded-full bg-gradient-to-r ${config.meterGradient} transition-all duration-700 ease-out`}
+          className={`absolute inset-y-0 left-0 rounded-full ${config.meterFill} transition-all duration-700 ease-out`}
           style={{ width: `${score}%` }}
         />
-        <div className="absolute inset-0 flex">
-          <div className="flex-1 border-r border-white/30" />
-          <div className="flex-1 border-r border-white/30" />
-          <div className="flex-1" />
-        </div>
-      </div>
-      <div className="mt-1 flex justify-between text-[10px] text-slate-400">
-        <span>At Risk</span>
-        <span>Monitor</span>
-        <span>Healthy</span>
       </div>
     </div>
   );
