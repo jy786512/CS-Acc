@@ -23,6 +23,11 @@
   --ds-lum-healthy: oklch(0.985 0 0);
   --ds-lum-attention: oklch(0.7 0 0);
   --ds-lum-risk: oklch(0.45 0 0);
+
+  /* Chart disposition colors (value → red / yellow / green) */
+  --ds-chart-red: oklch(0.68 0.19 25);
+  --ds-chart-yellow: oklch(0.84 0.14 90);
+  --ds-chart-green: oklch(0.75 0.16 155);
 }
 
 @theme inline {
